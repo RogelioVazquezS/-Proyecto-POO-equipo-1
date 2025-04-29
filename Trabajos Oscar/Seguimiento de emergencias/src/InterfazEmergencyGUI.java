@@ -80,18 +80,21 @@ public class InterfazEmergencyGUI extends JFrame {
             return;
         }
 
-       //Verificar emergencias duplicadas
+        // Verificar y fusionar emergencias duplicadas
         for (int i = 0; i < emergencias.size(); i++) {
             GestorEmergencias emergencia = emergencias.get(i);
             if (emergencia.getCategoria().equalsIgnoreCase(categoria) &&
                 emergencia.getUbicacion().equalsIgnoreCase(ubicacion) &&
                 emergencia.getPrioridad().equalsIgnoreCase(prioridad)) {
-                JOptionPane.showMessageDialog(this, "La emergencia ya esta registrada.");
+                // Fusionar la emergencia duplicada en lugar de rechazarla
+                emergencia.fusionarEmergencia(id);  // Método para fusionar la emergencia
+                actualizarLista();
+                JOptionPane.showMessageDialog(this, "La emergencia ya está registrada. Se ha fusionado.");
                 return;
             }
         }
 
-        
+        // Si no se encontró un duplicado, agregar la emergencia
         emergencias.add(new GestorEmergencias(categoria, ubicacion, id, prioridad));
         actualizarLista();
 
@@ -128,5 +131,4 @@ public class InterfazEmergencyGUI extends JFrame {
             listModel.addElement(emergencias.get(i).toString());
         }
     }
-
 }
